@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Earn Coins by Taking Surveys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; background: #f8f9fa; padding: 40px;">
+
+  <h1>🎯 Earn Coins by Completing Surveys</h1>
+  <p>Take short surveys and earn coins instantly!</p>
+
+  <!-- Display coins -->
+  <p id="coinDisplay" style="font-size: 20px; margin-top: 20px;">
+    Your Coins: <b id="coinCount">0</b>
+  </p>
+
+  <!-- Survey Button -->
+  <button 
+    style="padding: 12px 25px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;"
+    onclick="TR.showRewardCenter()">
+    🎁 Take a Survey
+  </button>
+
+  <!-- Include TheoremReach SDK -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://s3.us-east-1.amazonaws.com/cdn.theoremreach/v3/theorem_reach.min.js"></script>
+
+  <script>
+    // --- Replace this with your real TheoremReach API key ---
+    var theoremReachConfig = {
+      apiKey: "69e819d6825a74c17d51420ac592",  // <--- put your API key
+      userId: "testuser001",        // unique user id per user
+      onRewardCenterOpened: function() {
+        console.log("Reward center opened");
+      },
+      onReward: function(data) {
+        console.log("Reward received: " + data.earnedThisSession);
+        // Increase local coin count
+        var coins = parseInt(document.getElementById("coinCount").innerText);
+        coins += parseInt(data.earnedThisSession);
+        document.getElementById("coinCount").innerText = coins;
+        alert("🎉 You earned " + data.earnedThisSession + " coins!");
+      },
+      onRewardCenterClosed: function() {
+        console.log("Reward center closed");
+      }
+    };
+
+    var TR = new TheoremReach(theoremReachConfig);
+  </script>
+
+  <p style="margin-top: 40px; color: #666;">
+    Powered by TheoremReach Surveys
+  </p>
+
+</body>
+</html>
