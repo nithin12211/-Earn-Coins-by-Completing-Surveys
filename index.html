@@ -2,41 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Earn Coins by Taking Surveys</title>
+  <title>Earn Coins by Completing Surveys</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f9fa;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      padding: 12px 25px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #666;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; background: #f8f9fa; padding: 40px;">
+<body>
 
   <h1>🎯 Earn Coins by Completing Surveys</h1>
   <p>Take short surveys and earn coins instantly!</p>
 
-  <!-- Display coins -->
   <p id="coinDisplay" style="font-size: 20px; margin-top: 20px;">
     Your Coins: <b id="coinCount">0</b>
   </p>
 
-  <!-- Survey Button -->
-  <button 
-    style="padding: 12px 25px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;"
-    onclick="TR.showRewardCenter()">
-    🎁 Take a Survey
-  </button>
+  <button onclick="TR.showRewardCenter()">🎁 Take a Survey</button>
 
-  <!-- Include TheoremReach SDK -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://s3.us-east-1.amazonaws.com/cdn.theoremreach/v3/theorem_reach.min.js"></script>
 
   <script>
-    // --- Replace this with your real TheoremReach API key ---
+    // --- Generate a unique user ID for each visitor ---
+    var savedUser = localStorage.getItem("userId");
+    if (!savedUser) {
+      savedUser = "user_" + Math.floor(Math.random() * 10000000);
+      localStorage.setItem("userId", savedUser);
+    }
+
+    // --- TheoremReach Setup ---
     var theoremReachConfig = {
-      apiKey: "69e819d6825a74c17d51420ac592",  // <--- put your API key
-      userId: "testuser001",        // unique user id per user
+      apiKey: "69e819d6825a74c17d51420ac592", // your API key
+      userId: savedUser,
       onRewardCenterOpened: function() {
         console.log("Reward center opened");
       },
       onReward: function(data) {
         console.log("Reward received: " + data.earnedThisSession);
-        // Increase local coin count
         var coins = parseInt(document.getElementById("coinCount").innerText);
         coins += parseInt(data.earnedThisSession);
         document.getElementById("coinCount").innerText = coins;
@@ -50,9 +84,13 @@
     var TR = new TheoremReach(theoremReachConfig);
   </script>
 
-  <p style="margin-top: 40px; color: #666;">
-    Powered by TheoremReach Surveys
-  </p>
+  <footer>
+    <p>Powered by TheoremReach Surveys</p>
+    <p>
+      <a href="https://nithin12211.github.io/-Earn-Coins-by-Completing-Surveys/terms.html">Terms of Service</a> |
+      <a href="https://nithin12211.github.io/-Earn-Coins-by-Completing-Surveys/privacy.html">Privacy Policy</a>
+    </p>
+  </footer>
 
 </body>
 </html>
